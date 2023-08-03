@@ -1,13 +1,36 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class CurrencyConverterMaterialPage extends StatelessWidget {
+//FUNCTIONALITY
+//1.create a variable and store the value to be converted in it.
+//2.multiply it with the standard exchange rate
+//3.display that value
+
+class CurrencyConverterMaterialPage extends StatefulWidget {
   const CurrencyConverterMaterialPage({super.key});
 
   @override
+  State<CurrencyConverterMaterialPage> createState() =>
+      _CurrencyConverterMaterialPageState();
+}
+
+class _CurrencyConverterMaterialPageState
+    extends State<CurrencyConverterMaterialPage> {
+  TextEditingController textEditingController = TextEditingController(); // gives me access to the text entered by the user
+  double result = 0;
+  @override
   Widget build(BuildContext context) {
+    print('rebuilt');
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 46, 55, 59),
+      appBar: AppBar(
+        title: const Text(
+          'Currency Converter',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
+        ),
+        backgroundColor: Colors.blueGrey[900],
+        centerTitle: true,
+      ),
+      backgroundColor: const Color.fromARGB(255, 46, 55, 59),
       body: Center(
         child: Padding(
           //adding padding to the column to make the code look more neater.
@@ -15,10 +38,10 @@ class CurrencyConverterMaterialPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Currency Converter',
-                style: TextStyle(
-                    fontSize: 30,
+              Text(
+                result.toString(), // here I am printing the converted result
+                style: const TextStyle(
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
@@ -26,11 +49,12 @@ class CurrencyConverterMaterialPage extends StatelessWidget {
                 height: 10,
               ),
               TextField(
+                controller: textEditingController,
                 decoration: InputDecoration(
                   focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
+                      borderSide: BorderSide(color: Colors.black, width: 2),
                       borderRadius: BorderRadius.all(Radius.circular(20))),
-                  focusColor: Colors.black,
+                  // focusColor: Colors.black,
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   prefixIcon: const Icon(Icons.monetization_on_outlined),
@@ -58,10 +82,14 @@ class CurrencyConverterMaterialPage extends StatelessWidget {
                     backgroundColor: MaterialStatePropertyAll(Colors.blueGrey),
                   ),
                   onPressed: () {
-                    if (kDebugMode) {
-                      //basically print statement will execute only the code is in debug mode
-                      print('button clicked');
-                    }
+                    // if (kDebugMode) {
+                    //basically print statement will execute only the code is in debug mode
+                    print('button clicked');
+                    print(textEditingController.text);
+                    setState(() {
+                      result = double.parse(textEditingController.text) * 80;
+                    });
+                    // }
                   },
                   child: const Text(
                     'convert',
